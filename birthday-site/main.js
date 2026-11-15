@@ -661,7 +661,7 @@ function playVoice(name, text, onEnd = null) {
   const exts = ['mp3', 'm4a', 'wav'];
   let k = 0;
   const tryNext = () => {
-    if (k >= exts.length) { return ttsFallback(text); }
+    if (k >= exts.length) { return; }
     const a = new Audio(`audio/letters/${name}.${exts[k++]}`);
     voiceEl = a; a.muted = muted;
     a.onended = () => onVoiceEnd && onVoiceEnd();
@@ -712,9 +712,9 @@ $('letterText').addEventListener('pointerdown', () => { letterScrollHeld = true;
 $('letterText').addEventListener('wheel', () => { letterScrollHeld = true; });
 function openLetter(i, mode = 'letter') {
   letterOpen = true; letterMode = mode; letterScrollHeld = false; sfx.letter();
-  const L = mode === 'prayer' ? CONFIG.prayer : LETTERS[i];
-  $('letterNum').textContent = mode === 'prayer' ? `FOR ${CONFIG.heroName.toUpperCase()}, ON YOUR 39TH` : `LETTER ${i + 1} OF ${LETTERS.length}`;
-  $('letterTitle').textContent = L.title;
+  const L = mode === 'prayer' ? CONFIG.afterCandles : LETTERS[i];
+  $('letterNum').textContent = mode === 'prayer' ? 'ON YOUR 39TH ❤️' : `LETTER ${i + 1} OF ${LETTERS.length + 1}`;
+  $('letterTitle').textContent = '';
   $('letter').classList.toggle('noimg', !L.image);
   if (L.image) $('letterImg').src = L.image;
   $('letterSign').textContent = CONFIG.fromName ? `— ${CONFIG.fromName}` : '';
@@ -724,7 +724,7 @@ function openLetter(i, mode = 'letter') {
   L.paragraphs.forEach((t, k) => { const p = document.createElement('p'); p.textContent = t; if (k === 0 && /^Dear /.test(t)) p.className = 'dear'; box.appendChild(p); });
   const el = $('letter'); el.classList.remove('hidden', 'show', 'opened');
   requestAnimationFrame(() => { el.classList.add('show'); setTimeout(() => el.classList.add('opened'), 900); });
-  setTimeout(() => playVoice(mode === 'prayer' ? 'prayer' : `letter_${String(i + 1).padStart(2, '0')}`, L.paragraphs.join(' ')), 1300);
+  setTimeout(() => playVoice(mode === 'prayer' ? CONFIG.afterCandles.voice : `letter_${String(i + 1).padStart(2, '0')}`), 1300);
   showControls(false);
 }
 function maybeRaiseCake() {
@@ -756,8 +756,6 @@ function startFinale() {
   $('finaleText').textContent = CONFIG.finale;
   $('finale').classList.remove('hidden');
   requestAnimationFrame(() => $('finale').classList.add('show'));
-  pauseMusic();
-  playVoice('finale', CONFIG.finale, () => resumeMusic());
   fireworksT = 16;
 }
 // ---- the wish

@@ -91,7 +91,7 @@
   #letter.opened img { transform: scale(1.08); }
   #letter .txt { flex: 1; min-width: 0; }
   #letterNum { color: #c2416b; letter-spacing: .2em; font-size: 12px; }
-  #letter h2 { font-weight: normal; font-size: clamp(22px, 3vw, 36px); margin: 4px 0 10px; }
+  #letter h2 { display: none; font-weight: normal; font-size: clamp(22px, 3vw, 36px); margin: 4px 0 10px; }
   #letterText { font-size: clamp(15px, 1.6vw, 19px); line-height: 1.55; margin: 0 0 8px; max-height: 52vh; overflow-y: auto; padding-right: 8px; touch-action: pan-y; }
   #letterText p { margin: 0 0 12px; }
   #letterText p.dear { font-weight: bold; font-style: normal; }
@@ -163,11 +163,11 @@
     <div class="steps">
       <div class="step"><div class="ic">🚙</div><b>1. Drive</b><span class="kb"><b style="display:inline">Click &amp; drag</b> on the screen towards where you want to go — or use <b style="display:inline">W A S D</b> / arrow keys, or 🎮 on-screen arrows.</span><span class="tp" style="display:none">Put your <b style="display:inline">left thumb</b> on the screen and push where you want to go — or tap 🎮 for arrow buttons.</span></div>
       <div class="step"><div class="ic">🕯</div><b>2. Collect candles</b><span>Follow the big <b style="display:inline">yellow arrow</b>. The distance shows at the top.</span></div>
-      <div class="step"><div class="ic">✉</div><b>3. Read your letters</b><span>Every few candles a <b style="display:inline;color:#e8485d">letter pops up</b> automatically. 5 letters in total.</span></div>
+      <div class="step"><div class="ic">✉</div><b>3. Read your letters</b><span>Every few candles a <b style="display:inline;color:#e8485d">letter pops up</b> automatically.</span></div>
     </div>
     <div class="extra">Avoid 🟠 cones and 📦 crates (they slow you down) · You can drive through water.<br>
       Grab power-ups: <b>⚡ turbo</b> = speed · <b>◎ magnet</b> = pulls candles in · <b>✚ shield</b> = no bumps.<br>
-      Every candle flies to the birthday cake. At 39 candles the cake rises — follow the green arrow, make a wish and blow out the candles.<br>Press <b>?</b> any time to see this again.</div>
+      Every candle flies to the birthday cake. At 39 candles the cake rises — follow the green arrow, make a wish and blow out the candles for one last letter.<br>Press <b>?</b> any time to see this again.</div>
     <div class="go"><button class="btn" id="howtoGo">Let's go ▸</button></div>
   </div>
 </div>
@@ -216,7 +216,7 @@
   <div class="inner">
     <div class="kicker sans">A BIRTHDAY JOURNEY</div>
     <h1>HAPPY BIRTHDAY<br>UNCLE MO</h1>
-    <p>Drive around the island, collect candles,<br>and open 5 birthday letters written just for you.</p>
+    <p>Drive around the island, collect candles,<br>and open birthday letters written just for you.</p>
     <div id="loadbar"><div></div></div>
     <button class="btn hidden" id="start">Start the journey</button>
     <div class="hidden" style="margin-top:14px"><label class="sans songbtn">🎵 Use my song<input id="songPick" type="file" accept="audio/*" hidden></label> <span id="songName" class="sans" style="font-size:13px;opacity:.8"></span></div>
