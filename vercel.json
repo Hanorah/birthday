@@ -1,5 +1,5 @@
 {
   "redirects": [
-    { "source": "/", "destination": "/web/", "permanent": false }
+    { "source": "/", "destination": "/birthday-site/", "permanent": false }
   ]
 }
