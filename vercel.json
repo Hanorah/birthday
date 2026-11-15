@@ -1,0 +1,11 @@
+{
+  "redirects": [
+    { "source": "/", "destination": "/web/", "permanent": false }
+  ],
+  "headers": [
+    {
+      "source": "/web/(.*)\.wasm",
+      "headers": [{ "key": "Content-Type", "value": "application/wasm" }]
+    }
+  ]
+}
