@@ -95,9 +95,13 @@
   #letterText { font-size: clamp(15px, 1.6vw, 19px); line-height: 1.55; margin: 0 0 8px; max-height: 52vh; overflow-y: auto; padding-right: 8px; touch-action: pan-y; }
   #letterText p { margin: 0 0 12px; }
   #letterText p.dear { font-weight: bold; font-style: normal; }
-  #letterText .w { color: rgba(58,42,42,.38); transition: color .25s; }
-  #letterText .w.said { color: #3a2a2a; }
-  #letterText .w.now { color: #c2416b; }
+  #letterText .w { display: none; }
+  #letterText .w.said { display: inline; animation: wIn .35s ease-out; }
+  @keyframes wIn { from { opacity: 0; } to { opacity: 1; } }
+  #letterText p:empty { display: none; }
+  #letterText p.after { animation: wIn 1.2s ease-out; }
+  #letterText p.after.head { font-weight: bold; margin-top: 18px; color: #c2416b; }
+  #letterText { min-height: 8em; }
   #letterWait { font-size: 13px; color: #c2416b; opacity: .8; letter-spacing: .05em; }
   #letter.noimg .imgwrap { display: none; }
   #letter.noimg .paper { max-width: 820px; }

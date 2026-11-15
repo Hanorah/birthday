@@ -722,24 +722,30 @@ function openLetter(i, mode = 'letter') {
   pauseMusic();
   const box = $('letterText'); box.innerHTML = ''; box.scrollTop = 0;
   captionWords = []; captionIdx = -1;
-  let wi = 0;
-  L.paragraphs.forEach((t, k) => {
-    const p = document.createElement('p'); if (k === 0 && /^Dear /.test(t)) p.className = 'dear';
-    t.split(/\s+/).filter(Boolean).forEach((w) => {
-      const sp = document.createElement('span'); sp.textContent = w + ' ';
-      const tm = L.times ? L.times[wi] : undefined;
-      if (tm !== undefined && tm !== null) { sp.className = 'w'; captionWords.push({ el: sp, t: tm }); } else if (L.times) sp.className = 'w later';
-      wi++; p.appendChild(sp);
+  if (L.captions) {
+    // live captions: words appear as she says them
+    let p = document.createElement('p'); box.appendChild(p);
+    L.captions.forEach(([w, tm, br], k) => {
+      if (br) { p = document.createElement('p'); box.appendChild(p); }
+      if (k === 0 && /^Dear$/i.test(w)) p.className = 'dear';
+      const sp = document.createElement('span'); sp.className = 'w'; sp.textContent = w + ' ';
+      p.appendChild(sp); captionWords.push({ el: sp, t: tm });
     });
-    box.appendChild(p);
-  });
+  } else {
+    L.paragraphs.forEach((t) => { const p = document.createElement('p'); p.textContent = t; box.appendChild(p); });
+  }
   letterLocked = true; $('letterNext').classList.add('hidden'); $('letterWait').classList.remove('hidden');
   const el = $('letter'); el.classList.remove('hidden', 'show', 'opened');
   requestAnimationFrame(() => { el.classList.add('show'); setTimeout(() => el.classList.add('opened'), 900); });
   const unlock = () => { letterLocked = false; $('letterWait').classList.add('hidden'); $('letterNext').classList.remove('hidden'); };
   setTimeout(() => playVoice(mode === 'prayer' ? CONFIG.afterCandles.voice : `letter_${String(i + 1).padStart(2, '0')}`, null, () => {
     captionWords.forEach((c) => c.el.classList.add('said'));
-    if (mode === 'prayer') { unlock(); document.querySelectorAll('#letterText .later').forEach((e) => e.classList.add('said')); }
+    if (mode === 'prayer') {
+      const box = $('letterText');
+      (L.after || []).forEach((t, k) => { const p = document.createElement('p'); p.textContent = t; p.className = 'after' + (k === 0 ? ' head' : ''); box.appendChild(p); });
+      setTimeout(() => box.scrollTo({ top: box.scrollHeight, behavior: 'smooth' }), 300);
+      unlock();
+    }
     else { setTimeout(() => { letterLocked = false; closeLetter(); }, 1800); }
   }, unlock), 1300);
   setTimeout(() => { if (letterOpen && letterLocked && (!voiceEl || (voiceEl.paused && voiceEl.currentTime === 0))) unlock(); }, 5000);
@@ -1022,9 +1028,8 @@ function tick() {
     let idx = captionIdx;
     while (idx + 1 < captionWords.length && captionWords[idx + 1].t <= ct) { idx++; captionWords[idx].el.classList.add('said'); }
     if (idx !== captionIdx) {
-      if (captionIdx >= 0) captionWords[captionIdx].el.classList.remove('now');
-      captionIdx = idx; const el = captionWords[idx].el; el.classList.add('now');
-      if (!letterScrollHeld) { const box = $('letterText'); const want = el.offsetTop - box.offsetTop - box.clientHeight * 0.35; box.scrollTo({ top: Math.max(0, want), behavior: 'smooth' }); }
+      captionIdx = idx;
+      if (!letterScrollHeld) { const box = $('letterText'); box.scrollTo({ top: box.scrollHeight, behavior: 'smooth' }); }
     }
   }
   // ---- finale fireworks
