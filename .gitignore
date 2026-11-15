@@ -1,0 +1,6 @@
+﻿# Godot cache / imports
+.godot/
+# Bundled engine (too big for GitHub; download Godot 4.3 separately)
+engine/
+# Packaged archives
+*.zip

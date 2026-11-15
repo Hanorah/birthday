@@ -1,0 +1,67 @@
+{
+	"chapter": "ch1",
+	"title": "The Beginning",
+	"voice_note": "Voice-ready. Record each line as audio/voice/<line_id>.ogg (or .wav). If a file exists it plays automatically and the subtitle waits for it.",
+	"speakers": {
+		"MUM": {"name": "Mum", "color": "#f2b38a"},
+		"DAD": {"name": "Dad", "color": "#9cc4e8"},
+		"HERO": {"name": "{HERO}", "color": "#f2d68a"},
+		"HERO_VO": {"name": "{HERO}", "color": "#f2d68a"},
+		"SISTER": {"name": "{SISTER}", "color": "#e8a0c8"},
+		"GRANDMA": {"name": "Grandma", "color": "#d8c6a8"},
+		"UNCLE": {"name": "Uncle Femi", "color": "#a8d8a0"},
+		"ALL": {"name": "Everyone", "color": "#f2c773"}
+	},
+	"lines": {
+		"ch1_vo_001": {"speaker": "HERO_VO", "text": "They say you can't remember the day you were born. But I've heard the story so many times, I feel like I can.", "direction": "older, warm, reflective"},
+		"ch1_001": {"speaker": "MUM", "text": "Look at him. He's already holding on to my finger.", "direction": "whispered, tearful joy"},
+		"ch1_002": {"speaker": "DAD", "text": "Strong grip. He's going to build things with those hands.", "direction": "proud, quiet laugh"},
+		"ch1_003": {"speaker": "MUM", "text": "Welcome to the world, {HERO}. We have been waiting for you.", "direction": "tender"},
+		"ch1_004": {"speaker": "DAD", "text": "I promise you, son — as long as I'm alive, you will always have a home.", "direction": "serious, emotional. THEME LINE — echoed in the final chapter"},
+		"ch1_005": {"speaker": "GRANDMA", "text": "Bring him here! Let me see him. Ah — he has his father's forehead.", "direction": "excited, loud"},
+		"ch1_006": {"speaker": "UNCLE", "text": "And his mother's stubbornness, I hope. Somebody in this family should have sense.", "direction": "teasing"},
+		"ch1_007": {"speaker": "MUM", "text": "Femi! Everybody squeeze in. Photo — before he starts crying.", "direction": "laughing"},
+		"ch1_vo_002": {"speaker": "HERO_VO", "text": "Five years later, I was the most important person in that house. At least, that's what I believed.", "direction": "amused"},
+
+		"ch1_010": {"speaker": "MUM", "text": "There's my birthday boy! Five years old today. Come here, let me look at you.", "direction": "bright"},
+		"ch1_011": {"speaker": "HERO", "text": "Is that my cake? Can I taste it?", "direction": "child, hopeful"},
+		"ch1_012": {"speaker": "MUM", "text": "Not a single finger until tonight. Go and rescue your father — he's been fighting Grandma's old radio all morning.", "direction": "playful"},
+		"ch1_013": {"speaker": "MUM", "text": "Go on. If anybody can fix it, it's you.", "direction": "encouraging"},
+
+		"ch1_020": {"speaker": "DAD", "text": "Ah, the engineer has arrived. This radio hasn't played a song since you were born.", "direction": "mock serious"},
+		"ch1_021": {"speaker": "HERO", "text": "Maybe it's sleeping.", "direction": "child, curious"},
+		"ch1_022": {"speaker": "DAD", "text": "Maybe. Or maybe it's missing a battery, the tuning knob and my screwdriver. Help me find them, {NICK}?", "direction": "warm"},
+		"ch1_023": {"speaker": "DAD", "text": "Still missing a few pieces. Check the kitchen, your toy chest, and the shed.", "direction": "hint"},
+		"ch1_024": {"speaker": "DAD", "text": "You found everything? Alright, Mister Engineer. Show me how it's done.", "direction": "impressed"},
+		"ch1_025": {"speaker": "DAD", "text": "You hear that? You did it! Your grandmother is going to cry.", "direction": "delighted"},
+		"ch1_026": {"speaker": "MUM", "text": "Is that music? After five years? Who fixed it?", "direction": "calling from kitchen"},
+		"ch1_027": {"speaker": "HERO", "text": "Me! I'm an engineer!", "direction": "shouting proudly"},
+		"ch1_028": {"speaker": "DAD", "text": "Yes you are. Now go — {SISTER} has been hiding from you for twenty minutes. She thinks she's winning.", "direction": "laughing"},
+
+		"ch1_030": {"speaker": "HERO", "text": "Just socks. And Dad's old shoes. Pew.", "direction": "child"},
+		"ch1_031": {"speaker": "HERO", "text": "Not here. She's sneaky.", "direction": "child, whisper"},
+		"ch1_032": {"speaker": "HERO", "text": "Only spiders. Big ones.", "direction": "child, slightly scared"},
+		"ch1_033": {"speaker": "SISTER", "text": "Nooo! How did you find me so fast? You're cheating!", "direction": "giggling"},
+		"ch1_034": {"speaker": "HERO", "text": "I'm not cheating. I'm just smart.", "direction": "smug"},
+		"ch1_035": {"speaker": "SISTER", "text": "Fine. Birthday boy wins. Come on — Mum says it's time for cake!", "direction": "running off"},
+
+		"ch1_040": {"speaker": "ALL", "text": "♪ Happy birthday, dear {HERO}... happy birthday to you! ♪", "direction": "family singing, a little out of tune"},
+		"ch1_041": {"speaker": "MUM", "text": "Make a wish, my love. A big one.", "direction": "soft"},
+		"ch1_042": {"speaker": "GRANDMA", "text": "So? What did you wish for?", "direction": "curious"},
+		"ch1_043": {"speaker": "HERO", "text": "That we all live together forever. In a big house. On an island!", "direction": "child, completely serious"},
+		"ch1_044": {"speaker": "UNCLE", "text": "An island! Then you'll have to build it yourself, small man.", "direction": "laughing"},
+		"ch1_045": {"speaker": "HERO", "text": "I will. I promise.", "direction": "quiet, certain. THE PROMISE"},
+		"ch1_046": {"speaker": "DAD", "text": "We'll hold you to that. Everybody — photo!", "direction": "moved, then cheerful"},
+
+		"ch1_vo_010": {"speaker": "HERO_VO", "text": "Every year, the house got a little smaller. Or maybe I just got bigger.", "direction": "reflective"},
+		"ch1_vo_011": {"speaker": "HERO_VO", "text": "The radio came apart and went back together a hundred times. So did I.", "direction": "gentle humour"},
+		"ch1_vo_012": {"speaker": "HERO_VO", "text": "But I never forgot what I promised them.", "direction": "resolute"},
+
+		"mem_newborn_photo": {"speaker": "HERO_VO", "text": "The first family photo. Uncle Femi blinked. He always blinks.", "direction": ""},
+		"mem_wedding": {"speaker": "HERO_VO", "text": "Mum and Dad, before me. Dad swears he wasn't nervous. His hands say otherwise.", "direction": ""},
+		"mem_drawing": {"speaker": "HERO_VO", "text": "My first blueprint: a robot with a heart. Mum kept it on the fridge for years.", "direction": ""},
+		"mem_height": {"speaker": "HERO_VO", "text": "Every birthday, Dad marked my height on this door frame. I used to stand on my toes.", "direction": ""},
+		"mem_toy_robot": {"speaker": "HERO_VO", "text": "Bolt. A wind-up robot with one wobbly leg. I took him apart before I could read.", "direction": "sets up the robot companion in Chapter 2"},
+		"mem_treehouse": {"speaker": "HERO_VO", "text": "Keep Out — except Mum. My first property. I've always wanted a place of my own.", "direction": "foreshadows the island"}
+	}
+}
