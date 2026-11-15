@@ -825,7 +825,7 @@ $('start').addEventListener('click', () => {
     screen.orientation?.lock?.('landscape').catch(() => {});
   }
   startAudio(); refreshHud();
-  $('howto').classList.remove('hidden'); howtoOpen = true;
+  setTimeout(() => showControls(true), 0);
   if ('speechSynthesis' in window) speechSynthesis.speak(new SpeechSynthesisUtterance(''));
 });
 
