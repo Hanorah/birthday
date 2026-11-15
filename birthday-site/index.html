@@ -95,6 +95,10 @@
   #letterText { font-size: clamp(15px, 1.6vw, 19px); line-height: 1.55; margin: 0 0 8px; max-height: 52vh; overflow-y: auto; padding-right: 8px; touch-action: pan-y; }
   #letterText p { margin: 0 0 12px; }
   #letterText p.dear { font-weight: bold; font-style: normal; }
+  #letterText .w { color: rgba(58,42,42,.38); transition: color .25s; }
+  #letterText .w.said { color: #3a2a2a; }
+  #letterText .w.now { color: #c2416b; }
+  #letterWait { font-size: 13px; color: #c2416b; opacity: .8; letter-spacing: .05em; }
   #letter.noimg .imgwrap { display: none; }
   #letter.noimg .paper { max-width: 820px; }
   #letter .paper { max-height: 92vh; }
@@ -191,6 +195,7 @@
       <h2 id="letterTitle"></h2>
       <div id="letterText"></div>
       <div id="letterSign"></div>
+      <div id="letterWait" class="sans hidden">🎧 Listening…</div>
       <button class="btn" id="letterNext">Keep driving ▸</button>
     </div>
   </div>
@@ -208,7 +213,6 @@
     <h1 id="finaleTitle">Happy 39th Birthday, Uncle Mo</h1>
     <p id="finaleText"></p>
     <button class="btn" id="finaleClose">Keep driving</button>
-    <div class="credits sans">Island layout, car &amp; inspiration: Bruno Simon — folio-2025 (MIT licence)</div>
   </div>
 </div>
 

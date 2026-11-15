@@ -654,14 +654,14 @@ $('mute').addEventListener('click', () => {
 
 // voice: her recording (audio/letters/<name>.mp3 or .m4a), else device voice
 let voiceEl = null;
-let onVoiceEnd = null;
-function playVoice(name, text, onEnd = null) {
-  onVoiceEnd = onEnd;
+let onVoiceEnd = null, onVoiceFail = null;
+function playVoice(name, text, onEnd = null, onFail = null) {
+  onVoiceEnd = onEnd; onVoiceFail = onFail;
   stopVoice();
   const exts = ['mp3', 'm4a', 'wav'];
   let k = 0;
   const tryNext = () => {
-    if (k >= exts.length) { return; }
+    if (k >= exts.length) { onVoiceFail && onVoiceFail(); return; }
     const a = new Audio(`audio/letters/${name}.${exts[k++]}`);
     voiceEl = a; a.muted = muted;
     a.onended = () => onVoiceEnd && onVoiceEnd();
@@ -707,7 +707,7 @@ function refreshHud() {
 }
 function toast(msg, secs = 2.5) { const t = $('toast'); t.textContent = msg; t.classList.add('on'); toastT = secs; }
 
-let letterMode = 'letter', letterScrollHeld = false;
+let letterMode = 'letter', letterScrollHeld = false, letterLocked = false, captionWords = [], captionIdx = -1;
 $('letterText').addEventListener('pointerdown', () => { letterScrollHeld = true; });
 $('letterText').addEventListener('wheel', () => { letterScrollHeld = true; });
 function openLetter(i, mode = 'letter') {
@@ -721,10 +721,28 @@ function openLetter(i, mode = 'letter') {
   $('letterNext').textContent = mode === 'prayer' ? 'Àṣẹ ❤️' : (i === LETTERS.length - 1 ? 'Find the cake ▸' : 'Keep driving ▸');
   pauseMusic();
   const box = $('letterText'); box.innerHTML = ''; box.scrollTop = 0;
-  L.paragraphs.forEach((t, k) => { const p = document.createElement('p'); p.textContent = t; if (k === 0 && /^Dear /.test(t)) p.className = 'dear'; box.appendChild(p); });
+  captionWords = []; captionIdx = -1;
+  let wi = 0;
+  L.paragraphs.forEach((t, k) => {
+    const p = document.createElement('p'); if (k === 0 && /^Dear /.test(t)) p.className = 'dear';
+    t.split(/\s+/).filter(Boolean).forEach((w) => {
+      const sp = document.createElement('span'); sp.textContent = w + ' ';
+      const tm = L.times ? L.times[wi] : undefined;
+      if (tm !== undefined && tm !== null) { sp.className = 'w'; captionWords.push({ el: sp, t: tm }); } else if (L.times) sp.className = 'w later';
+      wi++; p.appendChild(sp);
+    });
+    box.appendChild(p);
+  });
+  letterLocked = true; $('letterNext').classList.add('hidden'); $('letterWait').classList.remove('hidden');
   const el = $('letter'); el.classList.remove('hidden', 'show', 'opened');
   requestAnimationFrame(() => { el.classList.add('show'); setTimeout(() => el.classList.add('opened'), 900); });
-  setTimeout(() => playVoice(mode === 'prayer' ? CONFIG.afterCandles.voice : `letter_${String(i + 1).padStart(2, '0')}`), 1300);
+  const unlock = () => { letterLocked = false; $('letterWait').classList.add('hidden'); $('letterNext').classList.remove('hidden'); };
+  setTimeout(() => playVoice(mode === 'prayer' ? CONFIG.afterCandles.voice : `letter_${String(i + 1).padStart(2, '0')}`, null, () => {
+    captionWords.forEach((c) => c.el.classList.add('said'));
+    if (mode === 'prayer') { unlock(); document.querySelectorAll('#letterText .later').forEach((e) => e.classList.add('said')); }
+    else { setTimeout(() => { letterLocked = false; closeLetter(); }, 1800); }
+  }, unlock), 1300);
+  setTimeout(() => { if (letterOpen && letterLocked && (!voiceEl || (voiceEl.paused && voiceEl.currentTime === 0))) unlock(); }, 5000);
   showControls(false);
 }
 function maybeRaiseCake() {
@@ -733,7 +751,7 @@ function maybeRaiseCake() {
   }
 }
 function closeLetter() {
-  if (!letterOpen) return;
+  if (!letterOpen || letterLocked) return;
   stopVoice(); resumeMusic();
   const el = $('letter'); el.classList.remove('show');
   setTimeout(() => el.classList.add('hidden'), 500);
@@ -812,7 +830,7 @@ manager.onLoad = () => {
   $('loadbar').classList.add('hidden'); $('start').classList.remove('hidden');
   refreshHud();
   window.__ready = true;
-  window.__debug = { car, mailboxes, candles, openLetter, closeLetter, get state() { return { candleCount, nextLetter, power: power.type }; }, setCandles: (n) => { candleCount = n; for (let i = 0; i < n && i < cakeCandles.length; i++) cakeCandles[i].visible = true; refreshHud(); maybeRaiseCake(); }, setLetter: (n) => { nextLetter = n; refreshHud(); }, get cakeState() { return cakeState; }, cakePos: () => cakePlate.position, wish: (on) => { keys.Wish = on; } };
+  window.__debug = { car, mailboxes, candles, openLetter, closeLetter: () => { letterLocked = false; closeLetter(); }, get locked() { return letterLocked; }, get state() { return { candleCount, nextLetter, power: power.type }; }, setCandles: (n) => { candleCount = n; for (let i = 0; i < n && i < cakeCandles.length; i++) cakeCandles[i].visible = true; refreshHud(); maybeRaiseCake(); }, setLetter: (n) => { nextLetter = n; refreshHud(); }, get cakeState() { return cakeState; }, cakePos: () => cakePlate.position, wish: (on) => { keys.Wish = on; } };
 };
 
 // ------------------------------------------------------------------ loop
@@ -999,7 +1017,16 @@ function tick() {
   }
   if (!target || !started) $('target').classList.add('hidden');
   updateFlights(dt);
-  if (letterOpen && voiceEl && voiceEl.duration > 0 && !letterScrollHeld) { const box = $('letterText'); const target = (box.scrollHeight - box.clientHeight) * Math.min(1, voiceEl.currentTime / voiceEl.duration * 1.04); box.scrollTop += (target - box.scrollTop) * 0.08; }
+  if (letterOpen && voiceEl && captionWords.length) {
+    const ct = voiceEl.currentTime;
+    let idx = captionIdx;
+    while (idx + 1 < captionWords.length && captionWords[idx + 1].t <= ct) { idx++; captionWords[idx].el.classList.add('said'); }
+    if (idx !== captionIdx) {
+      if (captionIdx >= 0) captionWords[captionIdx].el.classList.remove('now');
+      captionIdx = idx; const el = captionWords[idx].el; el.classList.add('now');
+      if (!letterScrollHeld) { const box = $('letterText'); const want = el.offsetTop - box.offsetTop - box.clientHeight * 0.35; box.scrollTo({ top: Math.max(0, want), behavior: 'smooth' }); }
+    }
+  }
   // ---- finale fireworks
   if (fireworksT > 0) {
     fireworksT -= dt;
